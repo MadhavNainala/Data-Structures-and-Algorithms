@@ -293,6 +293,29 @@ public class SinglyLinkedList {
 		return dummy.next;
 	}
 	
+	public ListNode addNodes(ListNode a, ListNode b) {
+		ListNode dummy = new ListNode(0);
+		ListNode tail = dummy;
+		int carry = 0;
+		while(a != null || b != null) {
+			int x = (a != null) ? a.data : 0;
+			int y = (b != null) ? b.data : 0;
+			int sum = carry + x + y;
+			carry = sum / 10;
+			tail.next = new ListNode(sum % 2);
+			tail = tail.next;
+			if (a.next != null) {
+				a = a.next;
+			}
+			if (b.next != null) {
+				b = b.next;
+			}			
+		}
+		if (carry > 0) {
+			tail.next = new ListNode(carry);
+		}
+		return dummy.next;
+	}
 	public static void main(String[] args) {
 		SinglyLinkedList sll = new SinglyLinkedList();
 		sll.head = new ListNode(1);
