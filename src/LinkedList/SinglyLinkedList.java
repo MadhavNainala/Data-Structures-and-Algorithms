@@ -228,6 +228,71 @@ public class SinglyLinkedList {
 		return false;
 	}
 	
+	public ListNode findLoop() {
+		ListNode fastptr = head;
+		ListNode slowptr = head;
+		while(fastptr != null && fastptr.next != null) {
+			fastptr = fastptr.next.next;
+			slowptr = slowptr.next;
+			if(slowptr == fastptr) {
+				return getStartingLoop(slowptr);
+			}
+		}
+		return null;
+	}
+	
+	public ListNode getStartingLoop(ListNode slowptr) {
+		ListNode temp = head;
+		while(temp != slowptr) {
+			temp = temp.next;
+			slowptr = slowptr.next;
+		}
+		return temp;
+	}
+	
+	public void findLoopNode() {
+		ListNode fastptr = head;
+		ListNode slowptr = head;
+		while(fastptr != null && fastptr.next != null) {
+			fastptr = fastptr.next.next;
+			slowptr = slowptr.next;
+			if(slowptr == fastptr) {
+				removeLoop(slowptr);
+				return;
+			}
+		}
+	}
+	
+	public void removeLoop(ListNode slowptr) {
+		ListNode temp = head;
+		while(temp.next != slowptr.next) {
+			temp = temp.next;
+			slowptr = slowptr.next;
+		}
+		slowptr.next = null;
+	}
+	
+	public ListNode mergeNodes(ListNode a, ListNode b) {
+		ListNode dummy = new ListNode(0);
+		ListNode tail = dummy;
+		while(a != null && b != null) {
+			if(a.data <= b.data) {
+				tail.next = a;
+				a = a.next;
+			}else {
+				tail.next = b;
+				b = b.next;
+			}
+			tail = tail.next;
+		}
+		if(a == null) {
+			tail.next = b;
+		}else {
+			tail.next = a;
+		}
+		return dummy.next;
+	}
+	
 	public static void main(String[] args) {
 		SinglyLinkedList sll = new SinglyLinkedList();
 		sll.head = new ListNode(1);
@@ -240,6 +305,11 @@ public class SinglyLinkedList {
         fourth.next = second;
         
         System.out.println(sll.containsLoop());
+        System.out.println(sll.findLoop().data);
+        sll.findLoopNode();
+        sll.display(sll.head);
+
+        
 
 	}
 
